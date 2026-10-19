@@ -1,0 +1,43 @@
+name: species-climate-range
+
+services:
+  db:
+    image: postgres:16
+    container_name: species-climate-db
+    environment:
+      POSTGRES_USER: sdm
+      POSTGRES_PASSWORD: sdm
+      POSTGRES_DB: occurrences
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sdm -d occurrences"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  gateway:
+    build: .
+    container_name: species-climate-gateway
+    ports:
+      - "8071:8000"
+    environment:
+      DATA_MODE: fixture
+      DATABASE_URL: postgresql://sdm:sdm@db:5432/occurrences
+      SPECIES_SCIENTIFIC_NAME: Panthera onca
+      SPECIES_COMMON_NAME: jaguar
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
