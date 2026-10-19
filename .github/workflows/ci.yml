@@ -1,0 +1,41 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: sdm
+          POSTGRES_PASSWORD: sdm
+          POSTGRES_DB: occurrences
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U sdm -d occurrences"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      # Fixture mode only. Do not download GBIF or the WorldClim archive here.
+      - name: Test hidden solutions and the fixture services
+        env:
+          CHALLENGE_SOLUTIONS: hidden
+          DATA_MODE: fixture
+          DATABASE_URL: postgresql://sdm:sdm@localhost:5432/occurrences
+          REQUIRE_POSTGRES: "1"
+        run: pytest
+      - name: Reveal a solution
+        run: python -m challenges reveal 03
