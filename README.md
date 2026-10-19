@@ -124,7 +124,7 @@ Postgres stores the validated occurrence table. Microbiology-style wide matrices
 
 ## Citations
 
-- GBIF.org occurrence search API. https://api.github.com/v1/occurrence/search and https://www.gbif.org
+- GBIF.org occurrence search API. https://api.gbif.org/v1/occurrence/search and https://www.gbif.org
 - Fick, S.E. and Hijmans, R.J. (2017) WorldClim 2: new 1-km spatial resolution climate surfaces for global land areas. International Journal of Climatology 37: 4302–4315. https://doi.org/10.1002/joc.5086
 - Roberts, D.R. et al. (2017) Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure. Ecography 40: 913–929. https://doi.org/10.1111/ecog.02881
 - Dormann, C.F. et al. (2013) Collinearity: a review of methods to deal with it and a simulation study evaluating their performance. Ecography 36: 27–46. https://doi.org/10.1111/j.1600-0587.2012.07348.x
