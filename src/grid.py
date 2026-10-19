@@ -83,6 +83,7 @@ def temperature_scale(raw: np.ndarray, nodata: object) -> float:
         return 0.1
     return 1.0
 
+
 def scale_band(raw: np.ndarray, nodata: object, worldclim: bool, scale: float) -> np.ndarray:
     """Mask nodata and, for official WorldClim files, convert BIO1 from °C * 10."""
     data = raw.astype("float32")
